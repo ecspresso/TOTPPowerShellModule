@@ -14,7 +14,12 @@
 
 #>
 
-function Get-Otp($SECRET, $LENGTH, $WINDOW){
+function Get-Otp(){
+    param(
+        [Parameter(Mandatory=$true)]$SECRET,
+        $LENGTH = 6,
+        $WINDOW = 30
+    )
     $enc = [System.Text.Encoding]::UTF8
     $hmac = New-Object -TypeName System.Security.Cryptography.HMACSHA1
     $hmac.key = Convert-HexToByteArray(Convert-Base32ToHex(($SECRET.ToUpper())))
