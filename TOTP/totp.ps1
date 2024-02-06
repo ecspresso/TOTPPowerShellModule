@@ -38,6 +38,22 @@ function Get-Otp(){
     return $otp
 }
 
+# Get-OTPRemainingSeconds returns how many seconds are left in the current TOTP window. In a script that needs to wait until the next code is generated, use like $RetryDelayInSeconds = Get-OTPRemainingSeconds; Start-Sleep -Seconds $RetryDelayInSeconds
+function Get-OTPRemainingSeconds () {
+    $INTERVAL = 30
+    $EPOCH = Get-Date -Year 1970 -Month 1 -Day 1 -Hour 0 -Minute 0 -Second 0
+
+    $span = New-TimeSpan -Start $EPOCH -End (Get-Date).ToUniversalTime()
+    $seconds = [math]::floor($span.TotalSeconds)
+    $counter = [math]::floor($seconds / $INTERVAL)
+    $counter = [Convert]::ToInt32($seconds / $INTERVAL)
+
+    $nextTimeStep = ($counter + 1)*$INTERVAL
+    $difference = $nextTimeStep - $seconds
+
+    return $difference
+}
+
 function Get-TimeByteArray($WINDOW) {
     $span = (New-TimeSpan -Start (Get-Date -Year 1970 -Month 1 -Day 1 -Hour 0 -Minute 0 -Second 0) -End (Get-Date).ToUniversalTime()).TotalSeconds
     $unixTime = [Convert]::ToInt64([Math]::Floor($span/$WINDOW))
