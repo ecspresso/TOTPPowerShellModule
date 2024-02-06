@@ -1,7 +1,7 @@
 # TOTPPowerShellModule
 Module for TOTP Client for PowerShell
 
-I created a module for easier user. I did not create the OTP code.
+I created a module for easier use. I did not create the OTP code.
 
 Source: https://gist.github.com/jonfriesen/234c7471c3e3199f97d5
 
@@ -20,4 +20,10 @@ Source: https://gist.github.com/jonfriesen/234c7471c3e3199f97d5
 # With all parameters specified, not using alias
 > Get-Otp -SECRET 'secretkeystring' -WINDOW 22 -LENGTH 5
 18017
+
+# Get remaining seconds in current TOTP window, default 30 second window
+> Get-OTPRemainingSeconds
+12
+> Get-OTPRemainingSeconds -WINDOW 20
+5
 ```
