@@ -45,7 +45,6 @@ function Get-OTPRemainingSeconds ([int32]$WINDOW = 30) {
     $span = New-TimeSpan -Start $EPOCH -End (Get-Date).ToUniversalTime()
     $seconds = [math]::floor($span.TotalSeconds)
     $counter = [math]::floor($seconds / $WINDOW)
-    $counter = [Convert]::ToInt32($seconds / $WINDOW)
 
     $nextTimeStep = ($counter + 1)*$WINDOW
     $difference = $nextTimeStep - $seconds
